@@ -39,6 +39,7 @@ class DoctorController extends Controller
 		$doctor->room = Input::get('room');
 	    }
 	    $doctor->save();
+            return view("doctor-create", ['id' => $doctor->id]);
 	}
         return view("doctor-create");
     }

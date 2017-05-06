@@ -10,6 +10,11 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
-Route::any('doctor/create', array('as' => 'doctor', 'uses' => 'DoctorController@create'));
 
+Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
+
+// Rejestracja resourceful route dla kontrolerów
+Route::resource('doctor', 'DoctorController');
+
+// Akcje RESTful
+Route::post('doctor/create', array('as' => 'doctor', 'uses' => 'DoctorController@create'));
