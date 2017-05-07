@@ -22,6 +22,5 @@
 	    <input type="text" name="room"><br/>
 	    <input type="submit" value="Send"><br/>
 	</form>
-       <?php if (isset($id)) { echo json_encode(['id' => $id]); } ?>
     </body>
 </html>
