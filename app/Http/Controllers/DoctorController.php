@@ -58,12 +58,42 @@ class DoctorController extends Controller
     }
     
     /*
-     * Show appointments for a doctor (multiple)
+     * Show appointments for a doctor (multiple) - optionally by date (when provided)
+     * @param Request $request
      * @param number $doctor_id
      */
-    public function showAppointments($doctor_id) {
-        return response()->json(Doctor::find($doctor_id)->appointmnts()->getResults());
+    public function showAppointments(Request $request, $doctor_id) {
+        if ($request->isMethod('get')) {
+            return response()->json(Doctor::find($doctor_id)->appointmnts()->getResults());
+        } elseif ($request->isMethod('post')) {
+            // Pobranie wartosci daty z input JSONa jesli jest w Requescie
+            $input_date = $request->json()->get("date");
+            if ($input_date == null) {
+                return $this->showError(400);
+            }
+            // Sprawdzenie, czy podana wartosc dla klucza jest w istocie data formatu YYYY-MM-DD
+            // http://stackoverflow.com/a/13194398/2095534
+            $appointment_date = \Date::createFromFormat("Y-m-d", $input_date);
+            var_dump($appointment_date);
+            var_dump($appointment_date !== false && !array_sum($appointment_date->getLastErrors()));
+            
+            
+            var_dump($appointment_date);
+            var_dump(strtotime($appointment_date));
+            var_dump(date('Y-m-d',strtotime($appointment_date)));
+            return;
+        }
     }
+    
+//    /*
+//     * Show appointments for a doctor (multiple) by date
+//     * @param Request $request
+//     */
+//    public function showAppointmentsByDate(Request $request, $doctor_id) {
+//        $appointment_date = $request->json()->all();
+//        return;
+//        //return response()->json(Doctor::where(['id', intval($doctor_id), '']))
+//    }
     
     /*
      * Show appointment for a doctor (single)
