@@ -33,7 +33,7 @@ Route::get('doctor/{doctor_id}/appointment', array('as' => 'doctor.appointments.
 // 6. READ_DOCTOR_APPOINTMENT
 Route::get('doctor/{doctor_id}/appointment/{appointment_id}', array('as' => 'doctor.appointment.read', 'uses' => 'DoctorController@showAppointment'));
 // 7. READ_DOCTOR_APPOINTMENTS_BY_DATE
-Route::post('doctor/{doctor_id}/appointment', array('as' => 'doctor.appointment.read.by.date', 'uses' => 'DoctorController@showAppointment'));
+Route::post('doctor/{doctor_id}/appointment', array('as' => 'doctor.appointment.read.by.date', 'uses' => 'DoctorController@showAppointments'));
 // 8. READ_DOCTORS
 Route::get('doctor', array('as' => 'doctors.read', 'uses' => 'DoctorController@showAll'));
 // 9. READ_DOCTORS_BY_SPECIALITY
