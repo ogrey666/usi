@@ -16,6 +16,7 @@ Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 // Rejestracja resourceful route dla kontrolerów
 Route::resource('doctor', 'DoctorController');
 Route::resource('patient', 'PatientController');
+Route::resource('appointment', 'AppointmentController');
 
 // Akcje RESTful
 // 1. CREATE_DOCTOR
@@ -46,3 +47,11 @@ Route::get('patient/{patient_id}/appointment', array('as' => 'patient.appointmen
 Route::get('patient/{patient_id}/appointment/{appointment_id}', array('as' => 'patient.appointment.read', 'uses' => 'PatientController@showAppointment'));
 // 18. READ_PATIENTS
 Route::get('patient', array('as' => 'patient.read', 'uses' => 'PatientController@showAll'));
+// 21. DELETE_APPOINTMENT
+Route::delete('appointment/{appointment_id}/delete', array('as' => 'appointment.delete', 'uses' => 'AppointmentController@remove'));
+// 21. DELETE_APPOINTMENT
+Route::get('appointment/{appointment_id}/delete', array('as' => 'appointment.delete', 'uses' => 'AppointmentController@remove'));
+// 22. READ_APPOINTMENT
+Route::get('appointment/{appointment_id}', array('as' => 'appointment.read', 'uses' => 'AppointmentController@show'));
+// 23. READ_APPOINTMENTS
+Route::get('appointment', array('as' => 'appointment.read', 'uses' => 'AppointmentController@showAll'));
