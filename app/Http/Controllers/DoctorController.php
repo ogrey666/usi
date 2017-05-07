@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Doctor;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use DB;
 
 class DoctorController extends Controller
 {
@@ -67,33 +67,29 @@ class DoctorController extends Controller
             return response()->json(Doctor::find($doctor_id)->appointmnts()->getResults());
         } elseif ($request->isMethod('post')) {
             // Pobranie wartosci daty z input JSONa jesli jest w Requescie
-            $input_date = $request->json()->get("date");
-            if ($input_date == null) {
+            $input_dt = $request->json()->get("date");
+            if ($input_dt == null) {
                 return $this->showError(400);
             }
             // Sprawdzenie, czy podana wartosc dla klucza jest w istocie data formatu YYYY-MM-DD
             // http://stackoverflow.com/a/13194398/2095534
-            $appointment_date = \Date::createFromFormat("Y-m-d", $input_date);
-            var_dump($appointment_date);
-            var_dump($appointment_date !== false && !array_sum($appointment_date->getLastErrors()));
-            
-            
-            var_dump($appointment_date);
-            var_dump(strtotime($appointment_date));
-            var_dump(date('Y-m-d',strtotime($appointment_date)));
-            return;
+            $appt_dt = \DateTime::createFromFormat("Y-m-d", $input_dt);
+            if (!($appt_dt !== false && !array_sum($appt_dt->getLastErrors()))) {
+                return $this->showError(400);
+            }
+            // Zmiana czasu w dacie na 00:00:00 (DateTime dodaje obecny)
+            $appt_dttm = $appt_dt->setTime(0, 0);
+            // Data szukana +1 dzien dla budowy kryteriow zapytania (klonowanie obiektu)
+            $appt_dttm_next = clone $appt_dttm;
+            $appt_dttm_next->add(new \DateInterval('P1D'));
+            // Zapytanie do bazy - query builder (ograniczenia ORM wzgledem komparatorow)
+            $result = DB::table('APPOINTMENT')
+                    ->where('DOCTOR_id', '=', intval($doctor_id))
+                    ->whereBetween('date', array($appt_dttm, $appt_dttm_next))
+                    ->get();
+            return response()->json($result);
         }
     }
-    
-//    /*
-//     * Show appointments for a doctor (multiple) by date
-//     * @param Request $request
-//     */
-//    public function showAppointmentsByDate(Request $request, $doctor_id) {
-//        $appointment_date = $request->json()->all();
-//        return;
-//        //return response()->json(Doctor::where(['id', intval($doctor_id), '']))
-//    }
     
     /*
      * Show appointment for a doctor (single)
@@ -101,14 +97,11 @@ class DoctorController extends Controller
      * @param number $appointment_id
      */
     public function showAppointment($doctor_id, $appointment_id) {
-        // Wybranie pierwszego Property obiektu i wyjście z pętli
-	$result = \App\Appointment::all()->where('DOCTOR_id', intval($doctor_id))->where('id', intval($appointment_id));
-        $first_prop = [];
-	foreach($result as $prop) {
-	    $first_prop = $prop;
-	    break; 
-	 } 
-        return response()->json($first_prop);
+	$result = \App\Appointment::where([
+            ['DOCTOR_id', intval($doctor_id)],
+            ['id', intval($appointment_id)]
+            ])->get();
+        return response()->json($result[0]);
     }
     
     /*
