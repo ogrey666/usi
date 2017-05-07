@@ -48,6 +48,10 @@ Route::get('patient/{patient_id}/appointment', array('as' => 'patient.appointmen
 Route::get('patient/{patient_id}/appointment/{appointment_id}', array('as' => 'patient.appointment.read', 'uses' => 'PatientController@showAppointment'));
 // 18. READ_PATIENTS
 Route::get('patient', array('as' => 'patient.read', 'uses' => 'PatientController@showAll'));
+// 19. CREATE_APPOINTMENT
+Route::post('appointment/create', array('as' => 'appointment.create', 'uses' => 'AppointmentController@create'));
+// 20. EDIT_APPOINTMENT
+Route::match(['put', 'post'], 'appointment/{appointment_id}/edit', array('as' => 'doctor.edit', 'uses' => 'AppointmentController@edit'));
 // 21. DELETE_APPOINTMENT (GET, DELETE)
 Route::match(['get', 'delete'], 'appointment/{appointment_id}/delete', array('as' => 'appointment.delete', 'uses' => 'AppointmentController@remove'));
 // 22. READ_APPOINTMENT
