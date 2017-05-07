@@ -3,8 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
+use Illuminate\Http\Request;
 
 class PatientController extends Controller {
+    /*
+     * Create patient
+     * @param Request $request
+     */
+    
+    public function create(Request $request) {
+        $data = $request->json()->all();
+        $patient = new Patient();
+        $patient->fill($data);
+        $patient->save();
+        return response()->json(['id' => $patient->id]);
+    }
+    
+    /*
+     * Edit patient
+     * @param Request $request
+     * @param number $patient_id
+     */
+    public function edit(Request $request, $patient_id) {
+        $patient = Patient::find($patient_id);
+        
+        if ($patient == null) {
+            return $this->showError(404);
+        }
+        
+        $data = $request->json()->all();
+        $patient->fill($data);
+        $patient->save();
+        return response()->json($patient);
+    }
+    
     /*
      * Remove patient
      * @param number $patient_id
