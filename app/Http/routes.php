@@ -23,7 +23,7 @@ Route::resource('speciality', 'SpecialityController');
 // 1. CREATE_DOCTOR
 Route::post('doctor/create', array('as' => 'doctor.create', 'uses' => 'DoctorController@create'));
 // 2. EDIT_DOCTOR
-Route::put('doctor/{doctor_id}/edit', array('as' => 'doctor.edit', 'uses' => 'DoctorController@edit'));
+Route::match(['put', 'post'], 'doctor/{doctor_id}/edit', array('as' => 'doctor.edit', 'uses' => 'DoctorController@edit'));
 // 3. DELETE_DOCTOR (GET, DELETE)
 Route::match(['get', 'delete'], 'doctor/{doctor_id}/delete', array('as' => 'doctor.delete', 'uses' => 'DoctorController@remove'));
 // 4. READ_DOCTOR
@@ -38,7 +38,7 @@ Route::post('doctor/{doctor_id}/appointment', array('as' => 'doctor.appointment.
 Route::get('doctor', array('as' => 'doctors.read', 'uses' => 'DoctorController@showAll'));
 // 9. READ_DOCTORS_BY_SPECIALITY
 Route::get('doctor/speciality/{speciality_id}', array('as' => 'doctors.speciality', 'uses' => 'DoctorController@showSpeciality'));
-// 12. DELETE_PATIENT
+// 12. DELETE_PATIENT (GET, DELETE)
 Route::match(['get', 'delete'], 'patient/{patient_id}/delete', array('as' => 'patient.delete', 'uses' => 'PatientController@remove'));
 // 13. READ_PATIENT
 Route::get('patient/{patient_id}', array('as' => 'patient.read', 'uses' => 'PatientController@show'));
