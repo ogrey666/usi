@@ -17,6 +17,7 @@ Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 Route::resource('doctor', 'DoctorController');
 Route::resource('patient', 'PatientController');
 Route::resource('appointment', 'AppointmentController');
+Route::resource('speciality', 'SpecialityController');
 
 // Akcje RESTful
 // 1. CREATE_DOCTOR
@@ -55,3 +56,7 @@ Route::get('appointment/{appointment_id}/delete', array('as' => 'appointment.del
 Route::get('appointment/{appointment_id}', array('as' => 'appointment.read', 'uses' => 'AppointmentController@show'));
 // 23. READ_APPOINTMENTS
 Route::get('appointment', array('as' => 'appointment.read', 'uses' => 'AppointmentController@showAll'));
+// 25. READ_SPECIALITY
+Route::get('speciality/{speciality_id}', array('as' => 'speciality.read', 'uses' => 'SpecialityController@show'));
+// 26. READ_SPECIALITIES
+Route::get('speciality', array('as' => 'speciality.read', 'uses' => 'SpecialityController@showAll'));
