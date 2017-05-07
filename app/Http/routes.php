@@ -15,6 +15,7 @@ Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
 // Rejestracja resourceful route dla kontrolerów
 Route::resource('doctor', 'DoctorController');
+Route::resource('patient', 'PatientController');
 
     //TODO: Trzeba przerobic CREATE i EDIT na przyjmowanie JSONa, bez widoku, IMHO - bo taki mial byc INPUT z specyfikacji CRUD
     //TODO: Trzeba przerobic CREATE i EDIT na przyjmowanie JSONa, bez widoku, IMHO - bo taki mial byc INPUT z specyfikacji CRUD
@@ -44,3 +45,13 @@ Route::post('doctor/{doctor_id}/appointment', array('as' => 'doctor.appointment.
 Route::get('doctor', array('as' => 'doctors.read', 'uses' => 'DoctorController@showAll'));
 // 9. READ_DOCTORS_BY_SPECIALITY
 Route::get('doctor/speciality/{speciality_id}', array('as' => 'doctors.speciality', 'uses' => 'DoctorController@showSpeciality'));
+// 12. DELETE_PATIENT
+Route::delete('patient/{patient_id}/delete', array('as' => 'patient.delete', 'uses' => 'PatientController@remove'));
+// 13. READ_PATIENT
+Route::get('patient/{patient_id}', array('as' => 'patient.read', 'uses' => 'PatientController@show'));
+// 14. READ_PATIENT_APPOINTMENTS
+Route::get('patient/{patient_id}/appointment', array('as' => 'patient.appointments.read', 'uses' => 'PatientController@showAppointments'));
+// 15. READ_PATIENT_APPOINTMENT
+Route::get('patient/{patient_id}/appointment/{appointment_id}', array('as' => 'patient.appointment.read', 'uses' => 'PatientController@showAppointment'));
+// 18. READ_PATIENTS
+Route::get('patient', array('as' => 'patient.read', 'uses' => 'PatientController@showAll'));
