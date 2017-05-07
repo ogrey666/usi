@@ -16,15 +16,6 @@ Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 // Rejestracja resourceful route dla kontrolerów
 Route::resource('doctor', 'DoctorController');
 
-    //TODO: Trzeba przerobic CREATE i EDIT na przyjmowanie JSONa, bez widoku, IMHO - bo taki mial byc INPUT z specyfikacji CRUD
-    //TODO: Trzeba przerobic CREATE i EDIT na przyjmowanie JSONa, bez widoku, IMHO - bo taki mial byc INPUT z specyfikacji CRUD
-    //TODO: Trzeba przerobic CREATE i EDIT na przyjmowanie JSONa, bez widoku, IMHO - bo taki mial byc INPUT z specyfikacji CRUD
-    //TODO: Trzeba przerobic CREATE i EDIT na przyjmowanie JSONa, bez widoku, IMHO - bo taki mial byc INPUT z specyfikacji CRUD
-    //
-//TODO: 1,2,7
-
-//DONE: 3,4,5,8,9
-
 // Akcje RESTful
 // 1. CREATE_DOCTOR
 Route::post('doctor/create', array('as' => 'doctor.create', 'uses' => 'DoctorController@create'));
