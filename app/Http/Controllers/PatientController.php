@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Patient;
 use Illuminate\Http\Request;
+use App\Appointment;
+use DB;
 
 class PatientController extends Controller {
     /*
@@ -77,7 +79,7 @@ class PatientController extends Controller {
      */
     public function showAppointment($patient_id, $appointment_id) {
         // Wybranie pierwszego Property obiektu i wyjście z pętli
-	$result = \App\Appointment::all()->where('DOCTOR_id', intval($patient_id))->where('id', intval($appointment_id));
+	$result = Appointment::all()->where('DOCTOR_id', intval($patient_id))->where('id', intval($appointment_id));
 	$first_prop = array();
 	foreach($result as $prop) {
 	    $first_prop = $prop;
@@ -85,5 +87,23 @@ class PatientController extends Controller {
 	 } 
         return response()->json($first_prop);
 	
+    }
+    
+    /*
+     * Tu jeszcze dolozyc 16
+     * Show doctors by speciality
+     * @param number $speciality_id
+     */
+    public function showAppointmentsByCondition(Request $request, $patient_id) {
+	if ($request->json()->get("speciality_id")) {
+            $result = DB::table('APPOINTMENT')
+		    ->leftJoin('DOCTOR', 'DOCTOR.id', '=', 'APPOINTMENT.DOCTOR_id')
+                    ->where('PATIENT_id', '=', intval($patient_id))
+		    ->where('DOCTOR.SPECIALITY_id', '=', intval($request->json()->get("speciality_id")))
+                    ->get();
+
+	    return response()->json($result);
+	}
+	// drugi if dla 16 dla daty
     }
 }
