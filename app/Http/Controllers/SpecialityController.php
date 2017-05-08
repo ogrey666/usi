@@ -30,7 +30,6 @@ class SpecialityController extends Controller
      */
     public function edit(Request $request, $speciality_id) {
         $speciality = Speciality::find($speciality_id);
-        var_dump($speciality);
         if ($speciality == null) {
             return $this->showError(404);
         }
