@@ -118,6 +118,6 @@ class DoctorController extends Controller
      * @param number $speciality_id
      */
     public function showSpeciality($speciality_id) {
-        return response()->json(Doctor::all()->where('SPECIALITY_id', intval($speciality_id)));
+        return response()->json(Doctor::where('SPECIALITY_id', intval($speciality_id))->get());
     }
 }
