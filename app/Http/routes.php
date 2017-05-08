@@ -62,6 +62,8 @@ Route::match(['get', 'delete'], 'appointment/{appointment_id}/delete', array('as
 Route::get('appointment/{appointment_id}', array('as' => 'appointment.read', 'uses' => 'AppointmentController@show'));
 // 23. READ_APPOINTMENTS
 Route::get('appointment', array('as' => 'appointment.read', 'uses' => 'AppointmentController@showAll'));
+// 24. EDIT_SPECIALITY
+Route::post('speciality/{speciality_id}/edit', array('as' => 'speciality.edit', 'uses' => 'SpecialityController@edit'));
 // 25. READ_SPECIALITY
 Route::get('speciality/{speciality_id}', array('as' => 'speciality.read', 'uses' => 'SpecialityController@show'));
 // 26. READ_SPECIALITIES

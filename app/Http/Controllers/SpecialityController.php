@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Speciality;
+use Illuminate\Http\Request;
 
 class SpecialityController extends Controller
 {
@@ -20,5 +21,23 @@ class SpecialityController extends Controller
      */
     public function showAll() {
         return response()->json(Speciality::all());
+    }
+    
+    /*
+     * Edit speciality
+     * @param Request $request
+     * @param number $seciality_id
+     */
+    public function edit(Request $request, $speciality_id) {
+        $speciality = Speciality::find($speciality_id);
+        var_dump($speciality);
+        if ($speciality == null) {
+            return $this->showError(404);
+        }
+        
+        $data = $request->json()->all();
+        $speciality->fill($data);
+        $speciality->save();
+        return response()->json($speciality);
     }
 }
