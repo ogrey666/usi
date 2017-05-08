@@ -13,17 +13,18 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
-        'doctor/create',
-        'doctor/*/edit',
-        'doctor/*/delete', 
-        'doctor/*/appointment',
-	'patient/*/delete',
-	'appointment/*/delete',
-	'appointment/*/edit',
-        'appointment/create',
-	'patient/*/edit',
-        'patient/create',
-        'speciality/*/edit',
-	'patient/*/appointment'
+        // Wlaczona weryfikacja tokenu CSRF na wszystkich uslugach
+//        'doctor/create',
+//        'doctor/*/edit',
+//        'doctor/*/delete', 
+//        'doctor/*/appointment',
+//	'patient/*/delete',
+//	'appointment/*/delete',
+//	'appointment/*/edit',
+//        'appointment/create',
+//	'patient/*/edit',
+//        'patient/create',
+//        'speciality/*/edit',
+//	'patient/*/appointment'
     ];
 }
