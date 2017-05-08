@@ -50,6 +50,8 @@ Route::get('patient/{patient_id}', array('as' => 'patient.read', 'uses' => 'Pati
 Route::get('patient/{patient_id}/appointment', array('as' => 'patient.appointments.read', 'uses' => 'PatientController@showAppointments'));
 // 15. READ_PATIENT_APPOINTMENT
 Route::get('patient/{patient_id}/appointment/{appointment_id}', array('as' => 'patient.appointment.read', 'uses' => 'PatientController@showAppointment'));
+// 16. READ_PATIENT_APPOINTMENT_BY_DATE
+Route::post('patient/{patient_id}/appointment', array('as' => 'patient.appointment.read.by.date', 'uses' => 'PatientController@showAppointmentsByCondition'));
 // 17. READ_PATIENT_APPOINTMENTS_BY_SPECIALITY
 Route::post('patient/{patient_id}/appointment', array('as' => 'patient.appointments.read', 'uses' => 'PatientController@showAppointmentsByCondition'));
 // 18. READ_PATIENTS

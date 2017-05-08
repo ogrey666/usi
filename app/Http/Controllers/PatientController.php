@@ -6,8 +6,12 @@ use App\Patient;
 use Illuminate\Http\Request;
 use App\Appointment;
 use DB;
+use App\Http\Traits\ValidateDate;
 
-class PatientController extends Controller {
+class PatientController extends Controller 
+{
+    use ValidateDate;
+    
     /*
      * Create patient
      * @param Request $request
@@ -90,8 +94,7 @@ class PatientController extends Controller {
     }
     
     /*
-     * Tu jeszcze dolozyc 16
-     * Show doctors by speciality
+     * Show doctors by condition (speciality / date)
      * @param number $speciality_id
      */
     public function showAppointmentsByCondition(Request $request, $patient_id) {
@@ -104,6 +107,26 @@ class PatientController extends Controller {
 
 	    return response()->json($result);
 	}
-	// drugi if dla 16 dla daty
+	
+        if ($request->json()->get("date")) {
+            // Sprawdzenie, czy podana wartosc dla klucza jest w istocie data formatu YYYY-MM-DD
+            $appt_dt = $this->validateDate($request->json()->get("date"));
+            if ($appt_dt == null) {
+                return $this->showError(400);
+            }
+            // Zmiana czasu w dacie na 00:00:00 (DateTime dodaje obecny)
+            $appt_dttm = $appt_dt->setTime(0, 0);
+            // Data szukana +1 dzien dla budowy kryteriow zapytania (klonowanie obiektu)
+            $appt_dttm_next = clone $appt_dttm;
+            $appt_dttm_next->add(new \DateInterval('P1D'));
+            // Zapytanie do bazy - query builder (ograniczenia ORM wzgledem komparatorow)
+            $result = DB::table('APPOINTMENT')
+                    ->where('PATIENT_id', '=', intval($patient_id))
+                    ->whereBetween('date', array($appt_dttm, $appt_dttm_next))
+                    ->get();
+            return response()->json($result);
+        }
+        
+        return $this->showError(400);
     }
 }
