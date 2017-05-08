@@ -95,14 +95,26 @@ class PatientController extends Controller
     
     /*
      * Show doctors by condition (speciality / date)
-     * @param number $speciality_id
+     * @param number $patient_id
      */
     public function showAppointmentsByCondition(Request $request, $patient_id) {
+        
+        // Sprawdz, czy podany JSON z Requesta zawiera inne klucze niz zbior $valid_keys
+        // lub w przypadku gdy zawiera tylko te, to maksymalnie 1
+        $input_keys = $request->json()->keys();
+        $valid_keys = array('speciality_id','date');
+        $diff_keys = array_diff($input_keys,$valid_keys);
+        if ($diff_keys != array()
+                || ($diff_keys == array() && count($input_keys) > 1)) {
+            return $this->showError(400);
+        }
+        
 	if ($request->json()->get("speciality_id")) {
             $result = DB::table('APPOINTMENT')
 		    ->leftJoin('DOCTOR', 'DOCTOR.id', '=', 'APPOINTMENT.DOCTOR_id')
                     ->where('PATIENT_id', '=', intval($patient_id))
 		    ->where('DOCTOR.SPECIALITY_id', '=', intval($request->json()->get("speciality_id")))
+                    ->select('APPOINTMENT.*')
                     ->get();
 
 	    return response()->json($result);
