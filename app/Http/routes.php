@@ -50,18 +50,20 @@ Route::get('patient/{patient_id}', array('as' => 'patient.read', 'uses' => 'Pati
 Route::get('patient/{patient_id}/appointment', array('as' => 'patient.appointments.read', 'uses' => 'PatientController@showAppointments'));
 // 15. READ_PATIENT_APPOINTMENT
 Route::get('patient/{patient_id}/appointment/{appointment_id}', array('as' => 'patient.appointment.read', 'uses' => 'PatientController@showAppointment'));
+// 17. READ_PATIENT_APPOINTMENTS_BY_SPECIALITY
+Route::post('patient/{patient_id}/appointment', array('as' => 'patient.appointments.read', 'uses' => 'PatientController@showAppointmentsByCondition'));
 // 18. READ_PATIENTS
 Route::get('patient', array('as' => 'patient.read', 'uses' => 'PatientController@showAll'));
 // 19. CREATE_APPOINTMENT
 Route::post('appointment/create', array('as' => 'appointment.create', 'uses' => 'AppointmentController@create'));
 // 20. EDIT_APPOINTMENT
-Route::match(['put', 'post'], 'appointment/{appointment_id}/edit', array('as' => 'doctor.edit', 'uses' => 'AppointmentController@edit'));
+Route::match(['put', 'post'], 'appointment/{appointment_id}/edit', array('as' => 'appointment.edit', 'uses' => 'AppointmentController@edit'));
 // 21. DELETE_APPOINTMENT (GET, DELETE)
 Route::match(['get', 'delete'], 'appointment/{appointment_id}/delete', array('as' => 'appointment.delete', 'uses' => 'AppointmentController@remove'));
 // 22. READ_APPOINTMENT
 Route::get('appointment/{appointment_id}', array('as' => 'appointment.read', 'uses' => 'AppointmentController@show'));
 // 23. READ_APPOINTMENTS
-Route::get('appointment', array('as' => 'appointment.read', 'uses' => 'AppointmentController@showAll'));
+Route::get('appointment', array('as' => 'appointments.read', 'uses' => 'AppointmentController@showAll'));
 // 24. EDIT_SPECIALITY
 Route::post('speciality/{speciality_id}/edit', array('as' => 'speciality.edit', 'uses' => 'SpecialityController@edit'));
 // 25. READ_SPECIALITY

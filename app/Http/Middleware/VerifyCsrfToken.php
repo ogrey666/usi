@@ -23,6 +23,7 @@ class VerifyCsrfToken extends BaseVerifier
         'appointment/create',
 	'patient/*/edit',
         'patient/create',
-        'speciality/*/edit'
+        'speciality/*/edit',
+	'patient/*/appointment'
     ];
 }
