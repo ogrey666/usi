@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Doctor;
 use Illuminate\Http\Request;
 use DB;
+use App\Http\Traits\ValidateDate;
 
 class DoctorController extends Controller
 {
+    use ValidateDate;
+    
     /*
      * Create doctor
      * @param Request $request
@@ -72,9 +75,8 @@ class DoctorController extends Controller
                 return $this->showError(400);
             }
             // Sprawdzenie, czy podana wartosc dla klucza jest w istocie data formatu YYYY-MM-DD
-            // http://stackoverflow.com/a/13194398/2095534
-            $appt_dt = \DateTime::createFromFormat("Y-m-d", $input_dt);
-            if (!($appt_dt !== false && !array_sum($appt_dt->getLastErrors()))) {
+            $appt_dt = $this->validateDate($input_dt);
+            if ($appt_dt == null) {
                 return $this->showError(400);
             }
             // Zmiana czasu w dacie na 00:00:00 (DateTime dodaje obecny)
